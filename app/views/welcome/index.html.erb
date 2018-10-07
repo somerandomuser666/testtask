@@ -1,2 +1,19 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<h1>Teams</h1>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Group</th>
+    </tr>
+  </thead>
+  <% @teams.each do |team| %>
+  <tbody>
+    <tr>
+      <th scope="row"><%= team.id %></th>
+      <td><%= team.title %></td>
+    </tr>
+  </tbody>
+  <% end %>
+</table>
