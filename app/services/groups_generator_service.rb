@@ -1,4 +1,4 @@
-class GroupsGenerator < BaseService
+class GroupsGeneratorService < BaseService
   def call
     create_groups
     fill_groups

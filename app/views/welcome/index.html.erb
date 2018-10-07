@@ -13,6 +13,7 @@
     <tr>
       <th scope="row"><%= team.id %></th>
       <td><%= team.title %></td>
+      <td><%= team.groups.last.title if Group.any? %></td>
     </tr>
   </tbody>
   <% end %>
