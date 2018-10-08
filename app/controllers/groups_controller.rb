@@ -9,6 +9,12 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
+  def play_off_generate
+    PlayOffGeneratorService.new.call
+    flash[:notice] = "#Play off groups was created"
+    redirect_to root_path
+  end
+
   private
 
   # def check_groups_count

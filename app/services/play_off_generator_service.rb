@@ -1,4 +1,4 @@
-class PlayOffGenerator < BaseService
+class PlayOffGeneratorService < BaseService
   def call
     @play_off = Group.create!(title: 'play_off')
     fill_group

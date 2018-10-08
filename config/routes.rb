@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :groups do
     collection do
       post :auto_generate
+      post :play_off_generate
     end
   end
 
