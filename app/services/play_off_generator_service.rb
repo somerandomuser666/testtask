@@ -9,34 +9,22 @@ class PlayOffGeneratorService < BaseService
   private
 
   def fill_group
-    %w[A B].each do |letter|
-      @play_off.teams << sort_teams_by_score(
-        Team.joins(:groups)
-            .includes(:team_scores)
-            .where(groups: {title: letter})
-      )[0..4]
-    end
+      @my_teams = []
+      @my_teams << sort_teams_by_score( Team.joins(:groups).includes(:team_scores).where(groups: {title: 'A'}))[4..7]
+      @my_teams << sort_teams_by_score( Team.joins(:groups).includes(:team_scores).where(groups: {title: 'B'}))[4..7]
+      @my_teams.flatten!
+      @play_off.teams << @my_teams
   end
 
   def generate_matches
-    while @play_off.teams.size > 1
-      match = MatchGenerator.call(team1: best_team, team2: worst_team, group: @play_off)
-      looser = match.team_scores.order(:score).first.team
-      @play_off.teams.delete(looser)
+    while @my_teams.size > 0
+      match = MatchGenerator.call(team1: @my_teams.first, team2: @my_teams.last, group: @play_off)
+      @my_teams.pop
+      @my_teams.shift
     end
-  end
-
-  def best_team
-    sort_teams_by_score(@play_off.teams).first
-  end
-
-  def worst_team
-    sort_teams_by_score(@play_off.teams).last
   end
 
   def sort_teams_by_score(teams)
-    teams.sort do |team1, team2|
-      team2.team_scores.sum(&:score) <=> team1.team_scores.sum(&:score)
-    end
+    teams.to_a.sort_by! { |t| t.team_scores.sum(&:score) }
   end
 end

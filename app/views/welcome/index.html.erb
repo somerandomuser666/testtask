@@ -59,10 +59,44 @@
     <tr>
       <th scope="row"><%= match.id %></th>
       <td><%= match.group.title %></td>
-      <td><%= match.teams.first.title %></td>
+      <td><%= match.team_scores.first.team.title %></td>
       <td><%= match.team_scores.first.score %></td>
-      <td><%= match.teams.last.title %></td>
+      <td><%= match.team_scores.last.team.title %></td>
       <td><%= match.team_scores.last.score %></td>
+    </tr>
+  </tbody>
+  <% end %>
+</table>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Team</th>
+      <th scope="col">Team Score</th>
+    </tr>
+  </thead>
+  <% Team.joins(:groups).includes(:team_scores).where(groups: {title: 'A'}).each do |team| %>
+  <tbody>
+    <tr>
+      <td><%= team.title %></td>
+      <td><%= team.team_scores.sum(:score) %></td>
+    </tr>
+  </tbody>
+  <% end %>
+</table>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Team</th>
+      <th scope="col">Team Score</th>
+    </tr>
+  </thead>
+  <% Team.joins(:groups).includes(:team_scores).where(groups: {title: 'B'}).each do |team| %>
+  <tbody>
+    <tr>
+      <td><%= team.title %></td>
+      <td><%= team.team_scores.sum(:score) %></td>
     </tr>
   </tbody>
   <% end %>
@@ -76,6 +110,7 @@
       <th scope="col">ID</th>
       <th scope="col">Group</th>
       <th scope="col">Team 1</th>
+      <th scope="col">Team Ol'scores</th>
       <th scope="col">Team 1 Score</th>
       <th scope="col">Team 2</th>
       <th scope="col">Team 2 Score</th>
@@ -86,11 +121,87 @@
     <tr>
       <th scope="row"><%= match.id %></th>
       <td><%= match.group.title %></td>
-      <td><%= match.teams.first.title %></td>
+      <td><%= match.team_scores.first.team.title %></td>
       <td><%= match.team_scores.first.score %></td>
-      <td><%= match.teams.last.title %></td>
+      <td><%= match.team_scores.last.team.title %></td>
       <td><%= match.team_scores.last.score %></td>
     </tr>
   </tbody>
   <% end %>
 </table>
+<%- if @_1_4_matches %>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Group</th>
+        <th scope="col">Team 1</th>
+        <th scope="col">Team Ol'scores</th>
+        <th scope="col">Team 1 Score</th>
+        <th scope="col">Team 2</th>
+        <th scope="col">Team 2 Score</th>
+      </tr>
+    </thead>
+    <% @_1_4_matches.each do |match| %>
+    <tbody>
+      <tr>
+        <th scope="row"><%= match.id %></th>
+        <td><%= match.group.title %></td>
+        <td><%= match.team_scores.first.team.title %></td>
+        <td><%= match.team_scores.first.score %></td>
+        <td><%= match.team_scores.last.team.title %></td>
+        <td><%= match.team_scores.last.score %></td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
+<% end %>
+
+<%- if @_1_2_matches %>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Group</th>
+        <th scope="col">Team 1</th>
+        <th scope="col">Team Ol'scores</th>
+        <th scope="col">Team 1 Score</th>
+        <th scope="col">Team 2</th>
+        <th scope="col">Team 2 Score</th>
+      </tr>
+    </thead>
+    <% @_1_2_matches.each do |match| %>
+    <tbody>
+      <tr>
+        <th scope="row"><%= match.id %></th>
+        <td><%= match.group.title %></td>
+        <td><%= match.team_scores.first.team.title %></td>
+        <td><%= match.team_scores.first.score %></td>
+        <td><%= match.team_scores.last.team.title %></td>
+        <td><%= match.team_scores.last.score %></td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
+<% end %>
+
+<%- if @final_matches %>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Group</th>
+        <th scope="col">WINNER</th>
+      </tr>
+    </thead>
+    <% @final_matches.each do |match| %>
+    <tbody>
+      <tr>
+        <th scope="row"><%= match.id %></th>
+        <td><%= match.group.title %></td>
+        <td><%= match.team_scores.first.team.title %></td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
+<% end %>

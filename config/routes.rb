@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     collection do
       post :auto_generate
       post :play_off_generate
+      post :final_generate
     end
   end
 

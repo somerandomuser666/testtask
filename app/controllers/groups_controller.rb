@@ -15,6 +15,13 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
+  def final_generate
+    FinalGeneratorService.new.call
+    FinalGeneratorService.new.call
+    FinalGeneratorService.new.call
+    redirect_to root_path
+  end
+
   private
 
   # def check_groups_count
