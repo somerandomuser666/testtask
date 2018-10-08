@@ -1,19 +1,68 @@
 <h1>Teams</h1>
+<div class="row">
+  <div class="col col-lg-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Group</th>
+        </tr>
+      </thead>
+      <% @teams.first(8).each do |team| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= team.id %></th>
+          <td><%= team.title %></td>
+          <td><%= team.groups.last.title if Group.any? %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <div class="col col-lg-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Group</th>
+        </tr>
+      </thead>
+      <% @teams.last(8).each do |team| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= team.id %></th>
+          <td><%= team.title %></td>
+          <td><%= team.groups.last.title if Group.any? %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>
 
-<table class="table">
-  <thead class="thead-dark">
+<h1>Matches</h1>
+<table class="table table-sm">
+  <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Title</th>
       <th scope="col">Group</th>
+      <th scope="col">Team 1</th>
+      <th scope="col">Team 1 Score</th>
+      <th scope="col">Team 2</th>
+      <th scope="col">Team 2 Score</th>
     </tr>
   </thead>
-  <% @teams.each do |team| %>
+  <% @matches.each do |match| %>
   <tbody>
     <tr>
-      <th scope="row"><%= team.id %></th>
-      <td><%= team.title %></td>
-      <td><%= team.groups.last.title if Group.any? %></td>
+      <th scope="row"><%= match.id %></th>
+      <td><%= match.group.title %></td>
+      <td><%= match.teams.first.title %></td>
+      <td><%= match.team_scores.first.score %></td>
+      <td><%= match.teams.last.title %></td>
+      <td><%= match.team_scores.last.score %></td>
     </tr>
   </tbody>
   <% end %>
