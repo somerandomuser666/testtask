@@ -14,7 +14,7 @@
         <tr>
           <th scope="row"><%= team.id %></th>
           <td><%= team.title %></td>
-          <td><%= team.groups.last.title if Group.any? %></td>
+          <td><%= team.groups.first.title if Group.any? %></td>
         </tr>
       </tbody>
       <% end %>
@@ -34,7 +34,7 @@
         <tr>
           <th scope="row"><%= team.id %></th>
           <td><%= team.title %></td>
-          <td><%= team.groups.last.title if Group.any? %></td>
+          <td><%= team.groups.first.title if Group.any? %></td>
         </tr>
       </tbody>
       <% end %>
@@ -43,64 +43,137 @@
 </div>
 
 <h1>Matches</h1>
-<table class="table table-sm">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Group</th>
-      <th scope="col">Team 1</th>
-      <th scope="col">Team 1 Score</th>
-      <th scope="col">Team 2</th>
-      <th scope="col">Team 2 Score</th>
-    </tr>
-  </thead>
-  <% @matches.first(56).each do |match| %>
-  <tbody>
-    <tr>
-      <th scope="row"><%= match.id %></th>
-      <td><%= match.group.title %></td>
-      <td><%= match.team_scores.first.team.title %></td>
-      <td><%= match.team_scores.first.score %></td>
-      <td><%= match.team_scores.last.team.title %></td>
-      <td><%= match.team_scores.last.score %></td>
-    </tr>
-  </tbody>
-  <% end %>
-</table>
+<div class="row matches">
+  <div class="col col-lg-3">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Group</th>
+          <th scope="col">Team pair</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <% @group_matches_first_half.first(14).each do |match| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= match.id %></th>
+          <td><%= match.group.title %></td>
+          <td><%= match.team_scores.first.team.title %> - <%= match.team_scores.last.team.title %></td>
+          <td><%= match.team_scores.first.score %> - <%= match.team_scores.last.score %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <div class="col col-lg-3">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Group</th>
+          <th scope="col">Team pair</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <% @group_matches_first_half.last(14).each do |match| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= match.id %></th>
+          <td><%= match.group.title %></td>
+          <td><%= match.team_scores.first.team.title %> - <%= match.team_scores.last.team.title %></td>
+          <td><%= match.team_scores.first.score %> - <%= match.team_scores.last.score %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <div class="col col-lg-3">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Group</th>
+          <th scope="col">Team pair</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <% @group_matches_last_half.first(14).each do |match| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= match.id %></th>
+          <td><%= match.group.title %></td>
+          <td><%= match.team_scores.first.team.title %> - <%= match.team_scores.last.team.title %></td>
+          <td><%= match.team_scores.first.score %> - <%= match.team_scores.last.score %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <div class="col col-lg-3">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Group</th>
+          <th scope="col">Team pair</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <% @group_matches_last_half.last(14).each do |match| %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= match.id %></th>
+          <td><%= match.group.title %></td>
+          <td><%= match.team_scores.first.team.title %> - <%= match.team_scores.last.team.title %></td>
+          <td><%= match.team_scores.first.score %> - <%= match.team_scores.last.score %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>
 
-<table class="table table-sm">
-  <thead>
-    <tr>
-      <th scope="col">Team</th>
-      <th scope="col">Team Score</th>
-    </tr>
-  </thead>
-  <% Team.joins(:groups).includes(:team_scores).where(groups: {title: 'A'}).each do |team| %>
-  <tbody>
-    <tr>
-      <td><%= team.title %></td>
-      <td><%= team.team_scores.sum(:score) %></td>
-    </tr>
-  </tbody>
-  <% end %>
-</table>
+<h1>Group Results</h1>
+<div class="row">
+  <div class="col col-lg-6">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Team</th>
+          <th scope="col">Team Score</th>
+        </tr>
+      </thead>
+      <% @group_a_teams.each do |team| %>
+      <tbody>
+        <tr>
+          <td><%= team.title %></td>
+          <td><%= team.team_scores.sum(:score) %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+  <div class="col col-lg-6">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Team</th>
+          <th scope="col">Team Score</th>
+        </tr>
+      </thead>
+      <% @group_b_teams.each do |team| %>
+      <tbody>
+        <tr>
+          <td><%= team.title %></td>
+          <td><%= team.team_scores.sum(:score) %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>
 
-<table class="table table-sm">
-  <thead>
-    <tr>
-      <th scope="col">Team</th>
-      <th scope="col">Team Score</th>
-    </tr>
-  </thead>
-  <% Team.joins(:groups).includes(:team_scores).where(groups: {title: 'B'}).each do |team| %>
-  <tbody>
-    <tr>
-      <td><%= team.title %></td>
-      <td><%= team.team_scores.sum(:score) %></td>
-    </tr>
-  </tbody>
-  <% end %>
-</table>
 
 <h1>Play Off</h1>
 
@@ -116,7 +189,7 @@
       <th scope="col">Team 2 Score</th>
     </tr>
   </thead>
-  <% @group_matches.each do |match| %>
+  <% @play_off_matches.each do |match| %>
   <tbody>
     <tr>
       <th scope="row"><%= match.id %></th>
